@@ -28,7 +28,7 @@ public:
 
 	void bind(); //bind shader to context
 	void unbind(); //unbind shader
-	GLuint handle(); //returns shader program handle
+	GLuint getHandle(); //returns shader program handle
 
 	string getError(); //returns error messages from compilation
 	
