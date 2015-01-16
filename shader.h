@@ -22,15 +22,35 @@ class Shader
 
 public:
 
-	//functions to create shader from file and delete
+	//loadShader
+	//parameters are filenames to source files for vertex, tessellation control, tessellation evaluator, geometry and fragment shaders
+	//returns true if shader program was successfully created
+	//if the function returns false, the cause of the error may be ascertained by calling the getError() function, which returns a string
 	bool loadShader(const char* vFile, const char* tcFile, const char* teFile, const char* gFile, const char* fFile);
+	
+	//deleteShader
+	//Used to delete a shader program once it is no longer of use
 	void deleteShader();
 
-	void bind(); //bind shader to context
-	void unbind(); //unbind shader
-	GLuint getHandle(); //returns shader program handle
+	
+	//bind
+	//binds the shader program to the current opengl context
+	//if no shader program exists, this function does nothing
+	void bind();
 
-	string getError(); //returns error messages from compilation
+	//unbind
+	//unbinds the current shader program from the opengl context
+	void unbind();
+	
+	//getHandle
+	//Returns a handle to the current shader program
+	//returns 0 if no shader program exists
+	GLuint getHandle();
+	
+	//getError
+	//returns error string generated during loadProgram or readFile(private, called by loadProgram) functions
+	//error string refers to why the shader program could not be created
+	string getError();
 	
 private:
   
@@ -47,6 +67,9 @@ private:
 
 	//Contains error messages from compilation
 	string error;
+
+	//If shader program currently exists
+	bool isShader;
 
 	//Function returns contents of shader file as string
 	string readFile(const char* fileName);
