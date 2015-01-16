@@ -1,15 +1,15 @@
 /*
-  OpenGL-Utils
-  Copyright (C) 2015 George Broughton
-  GNU GPL Version 3
+	OpenGL-Utils
+	Copyright (C) 2015 George Broughton
+	GNU GPL Version 3
   
-  Shader.h
+	Shader.h
   
-  Header file for container class for openGL shader programs
-  Includes tessellation shaders, so opengl v. 4.0+
+	Header file for container class for openGL shader programs
+	Includes tessellation shaders, so opengl v. 4.0+
   
-  Simply create class, call loadShader providing file names as parameters, then bind() to use
-  Don't forget to call deleteShader() at the end
+	Simply create class, call loadShader providing file names as parameters, then bind() to use
+	Don't forget to call deleteShader() at the end
 */
 
 #pragma once
@@ -22,7 +22,7 @@ class Shader
 
 public:
 
-  //functions to create shader from file and delete
+	//functions to create shader from file and delete
 	bool loadShader(const char* vFile, const char* tcFile, const char* teFile, const char* gFile, const char* fFile);
 	void deleteShader();
 
@@ -34,8 +34,8 @@ public:
 	
 private:
   
-  //Handles to shaders
-  //Vertex, tessellation control, tessellation evaluator, geometry and fragment
+	//Handles to shaders
+	//Vertex, tessellation control, tessellation evaluator, geometry and fragment
 	GLuint vShader;
 	GLuint tcShader;
 	GLuint teShader;
@@ -45,9 +45,9 @@ private:
 	//Handle to shader program
 	GLuint hProgram;
 
-  //Contains error messages from compilation
+	//Contains error messages from compilation
 	string error;
 
-  //Function returns contents of shader file as string
+	//Function returns contents of shader file as string
 	string readFile(const char* fileName);
 };
