@@ -14,6 +14,7 @@
 #pragma once
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_opengl.h"
+#include <string>
 
 using namespace std;
 
@@ -57,7 +58,7 @@ private:
 	GLuint texture;
 
 	//If shader program currently exists
-	bool isShader;
+	bool isTexture;
 
 	//Contains error messages from compilation
 	string error;
