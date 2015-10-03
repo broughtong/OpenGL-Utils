@@ -13,7 +13,7 @@
 
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_opengl.h"
-#include "loadTexture.h"
+#include "texture.h"
 #include <string>
 
 using namespace std;
