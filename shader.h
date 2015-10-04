@@ -51,6 +51,10 @@ public:
 	//returns error string generated during loadProgram or readFile(private, called by loadProgram) functions
 	//error string refers to why the shader program could not be created
 	string getError();
+
+	//getIsShader
+	//Returns whether or not class is currently a shader program
+	bool getIsShader();
 	
 private:
   
