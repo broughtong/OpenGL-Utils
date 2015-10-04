@@ -12,12 +12,13 @@
 	Don't forget to call deleteShader() at the end
 */
 
-#include <GL/glew.h>
 #include <SDL2/SDL.h>
+#include <GL/glew.h>
 #include <SDL2/SDL_opengl.h>
 #include "shader.h"
 #include <string>
 #include <fstream>
+#include <iostream>
 
 using namespace std;
 
@@ -29,153 +30,178 @@ bool Shader::loadShader(const char* vFile, const char* tcFile, const char* teFil
 {
 	error = "";
 
-	vShader = glCreateShader(GL_VERTEX_SHADER);
-	tcShader = glCreateShader(GL_TESS_CONTROL_SHADER);
-	teShader = glCreateShader(GL_TESS_EVALUATION_SHADER);
-	gShader = glCreateShader(GL_GEOMETRY_SHADER);
-	fShader = glCreateShader(GL_FRAGMENT_SHADER);
-
-	if(vShader == 0)
-	{
-		error += "Error creating vertex shader\n";
-		return false;
-	}
-	if(tcShader == 0)
-	{
-		error += "Error creating tessellation control shader\n";
-		return false;
-	}
-	if(teShader == 0)
-	{
-		error += "Error creating tessellation evaluator shader\n";
-		return false;
-	}
-	if(gShader == 0)
-	{
-		error += "Error creating geometry shader\n";
-		return false;
-	}
-	if(fShader == 0)
-	{
-		error += "Error creating fragment shader\n";
-		return false;
-	}
-
-	string vTextString = readFile(vFile);
-	string tcTextString = readFile(tcFile);
-	string teTextString = readFile(teFile);
-	string gTextString = readFile(gFile);
-	string fTextString = readFile(fFile); 
-
-	if(vTextString.empty()) return false;
-	if(tcTextString.empty()) return false;
-	if(teTextString.empty()) return false;
-	if(gTextString.empty()) return false;
-	if(fTextString.empty()) return false;
-
-	const char* vText = vTextString.c_str();
-	const char* tcText = tcTextString.c_str();
-	const char* teText = teTextString.c_str();
-	const char* gText = gTextString.c_str();
-	const char* fText = fTextString.c_str();
-
-	glShaderSource(vShader, 1, &vText, NULL);
-	glShaderSource(tcShader, 1, &tcText, NULL);
-	glShaderSource(teShader, 1, &teText, NULL);
-	glShaderSource(gShader, 1, &gText, NULL);
-	glShaderSource(fShader, 1, &fText, NULL);
-
-	glCompileShader(vShader);
-	glCompileShader(tcShader);
-	glCompileShader(teShader);
-	glCompileShader(gShader);
-	glCompileShader(fShader);
-
-	GLint vStatus;
-	GLint tcStatus;
-	GLint teStatus;
-	GLint gStatus;
-	GLint fStatus;
-
-	glGetShaderiv(vShader, GL_COMPILE_STATUS, &vStatus);
-	glGetShaderiv(tcShader, GL_COMPILE_STATUS, &tcStatus);
-	glGetShaderiv(teShader, GL_COMPILE_STATUS, &teStatus);
-	glGetShaderiv(gShader, GL_COMPILE_STATUS, &gStatus);
-	glGetShaderiv(fShader, GL_COMPILE_STATUS, &fStatus);
-
-	if(vStatus == GL_FALSE)
-	{
-		GLint logLength;
-		glGetShaderiv(vShader, GL_INFO_LOG_LENGTH , &logLength);
-		GLchar* compilerLog = new GLchar[logLength];
-		glGetShaderInfoLog(vShader, logLength, 0, compilerLog);
-		error += "Error compiling vertex shader: ";		
-		error += compilerLog;
-		error += "\n";
-		delete compilerLog;
-		return false;
-	}
-	if(tcStatus == GL_FALSE)
-	{
-		GLint logLength;
-		glGetShaderiv(tcShader, GL_INFO_LOG_LENGTH , &logLength);
-		GLchar* compilerLog = new GLchar[logLength];
-		glGetShaderInfoLog(tcShader, logLength, 0, compilerLog);
-		error += "Error compiling tessellation control shader: ";		
-		error += compilerLog;
-		error += "\n";
-		delete compilerLog;
-		return false;
-	}
-	if(teStatus == GL_FALSE)
-	{
-		GLint logLength;
-		glGetShaderiv(teShader, GL_INFO_LOG_LENGTH , &logLength);
-		GLchar* compilerLog = new GLchar[logLength];
-		glGetShaderInfoLog(teShader, logLength, 0, compilerLog);
-		error += "Error compiling tessellation evaluator shader: ";		
-		error += compilerLog;
-		error += "\n";
-		delete compilerLog;
-		return false;
-	}
-	if(gStatus == GL_FALSE)
-	{
-		GLint logLength;
-		glGetShaderiv(gShader, GL_INFO_LOG_LENGTH , &logLength);
-		GLchar* compilerLog = new GLchar[logLength];
-		glGetShaderInfoLog(gShader, logLength, 0, compilerLog);
-		error += "Error compiling geometry shader: ";		
-		error += compilerLog;
-		error += "\n";
-		delete compilerLog;
-		return false;
-	}
-	if(fStatus == GL_FALSE)
-	{
-		GLint logLength;
-		glGetShaderiv(fShader, GL_INFO_LOG_LENGTH , &logLength);
-		GLchar* compilerLog = new GLchar[logLength];
-		glGetShaderInfoLog(fShader, logLength, 0, compilerLog);
-		error += "Error compiling fragment shader: ";		
-		error += compilerLog;
-		error += "\n";
-		delete compilerLog;
-		return false;
-	}
-
 	hProgram = glCreateProgram();
 	if(hProgram == 0)
 	{
-		error += "Error creating shader program: shader returned ID 0\n";
+		error += "Error creating shader program\n";
 		return false;
 	}
 
-	glAttachShader(hProgram, vShader);
-	glAttachShader(hProgram, tcShader);
-	glAttachShader(hProgram, teShader);
-	glAttachShader(hProgram, gShader);
-	glAttachShader(hProgram, fShader);
+	if(vFile != 0)
+	{
+		vShader = glCreateShader(GL_VERTEX_SHADER);
+		if(vShader == 0)
+		{
+			error += "Error creating vertex shader\n";
+			return false;
+		}
+		string vTextString = readFile(vFile);
+		if(vTextString.empty())
+		{
+			error += "Error reading vertex shader file\n";
+			return false;
+		}
+		const char* vText = vTextString.c_str();
+		glShaderSource(vShader, 1, &vText, NULL);
+		glCompileShader(vShader);
+		GLint vStatus;
+		glGetShaderiv(vShader, GL_COMPILE_STATUS, &vStatus);
+		if(vStatus == GL_FALSE)
+		{
+			GLint logLength;
+			glGetShaderiv(vShader, GL_INFO_LOG_LENGTH , &logLength);
+			GLchar* compilerLog = new GLchar[logLength];
+			glGetShaderInfoLog(vShader, logLength, 0, compilerLog);
+			error += "Error compiling vertex shader: ";		
+			error += compilerLog;
+			error += "\n";
+			delete compilerLog;
+			return false;
+		}
+		glAttachShader(hProgram, vShader);
+	}	
+	else if(tcFile != 0)
+	{
+		tcShader = glCreateShader(GL_TESS_CONTROL_SHADER);
+		if(tcShader == 0)
+		{
+			error += "Error creating tessellation control shader\n";
+			return false;
+		}
+		string tcTextString = readFile(tcFile);
+		if(tcTextString.empty())
+		{
+			error += "Error reading vertex shader file\n";
+			return false;
+		}
+		const char* tcText = tcTextString.c_str();
+		glShaderSource(tcShader, 1, &tcText, NULL);
+		glCompileShader(tcShader);
+		GLint tcStatus;
+		glGetShaderiv(tcShader, GL_COMPILE_STATUS, &tcStatus);
+		if(tcStatus == GL_FALSE)
+		{
+			GLint logLength;
+			glGetShaderiv(tcShader, GL_INFO_LOG_LENGTH , &logLength);
+			GLchar* compilerLog = new GLchar[logLength];
+			glGetShaderInfoLog(tcShader, logLength, 0, compilerLog);
+			error += "Error compiling tessellation control shader: ";		
+			error += compilerLog;
+			error += "\n";
+			delete compilerLog;
+			return false;
+		}
+		glAttachShader(hProgram, tcShader);
+	}	
+	else if(teFile != 0)
+	{
+		teShader = glCreateShader(GL_TESS_EVALUATION_SHADER);
+		if(teShader == 0)
+		{
+			error += "Error creating tessellation evaluator shader\n";
+			return false;
+		}
+		string teTextString = readFile(teFile);
+		if(teTextString.empty())
+		{
+			error += "Error reading vertex shader file\n";
+			return false;
+		}
+		const char* teText = teTextString.c_str();
+		glShaderSource(teShader, 1, &teText, NULL);
+		glCompileShader(teShader);
+		GLint teStatus;
+		glGetShaderiv(teShader, GL_COMPILE_STATUS, &teStatus);
+		if(teStatus == GL_FALSE)
+		{
+			GLint logLength;
+			glGetShaderiv(teShader, GL_INFO_LOG_LENGTH , &logLength);
+			GLchar* compilerLog = new GLchar[logLength];
+			glGetShaderInfoLog(teShader, logLength, 0, compilerLog);
+			error += "Error compiling tessellation evaluator shader: ";		
+			error += compilerLog;
+			error += "\n";
+			delete compilerLog;
+			return false;
+		}
+		glAttachShader(hProgram, teShader);
+	}	
+	else if(gFile != 0)
+	{
+		gShader = glCreateShader(GL_GEOMETRY_SHADER);
+		if(gShader == 0)
+		{
+			error += "Error creating geometry shader\n";
+			return false;
+		}
+		string gTextString = readFile(gFile);
+		if(gTextString.empty())
+		{
+			error += "Error reading vertex shader file\n";
+			return false;
+		}
+		const char* gText = gTextString.c_str();
+		glShaderSource(gShader, 1, &gText, NULL);
+		glCompileShader(gShader);
+		GLint gStatus;
+		glGetShaderiv(gShader, GL_COMPILE_STATUS, &gStatus);
+		if(gStatus == GL_FALSE)
+		{
+			GLint logLength;
+			glGetShaderiv(gShader, GL_INFO_LOG_LENGTH , &logLength);
+			GLchar* compilerLog = new GLchar[logLength];
+			glGetShaderInfoLog(gShader, logLength, 0, compilerLog);
+			error += "Error compiling geometry shader: ";		
+			error += compilerLog;
+			error += "\n";
+			delete compilerLog;
+			return false;
+		}
+		glAttachShader(hProgram, gShader);
+	}	
+	else if(fFile != 0)
+	{
+		fShader = glCreateShader(GL_FRAGMENT_SHADER);
+		if(fShader == 0)
+		{
+			error += "Error creating fragment shader\n";
+			return false;
+		}
+		string fTextString = readFile(fFile); 
+		if(fTextString.empty())
+		{
+			error += "Error reading vertex shader file\n";
+			return false;
+		}
+		const char* fText = fTextString.c_str();
+		glShaderSource(fShader, 1, &fText, NULL);
+		glCompileShader(fShader);
+		GLint fStatus;
+		glGetShaderiv(fShader, GL_COMPILE_STATUS, &fStatus);
+		if(fStatus == GL_FALSE)
+		{
+			GLint logLength;
+			glGetShaderiv(fShader, GL_INFO_LOG_LENGTH , &logLength);
+			GLchar* compilerLog = new GLchar[logLength];
+			glGetShaderInfoLog(fShader, logLength, 0, compilerLog);
+			error += "Error compiling fragment shader: ";		
+			error += compilerLog;
+			error += "\n";
+			delete compilerLog;
+			return false;
+		}
+		glAttachShader(hProgram, fShader);
+	}
 
 	glLinkProgram(hProgram);
 
@@ -212,6 +238,32 @@ bool Shader::loadShader(const char* vFile, const char* tcFile, const char* teFil
 		delete compilerLog;
 		return false;
 	}
+	
+	if(fFile != 0)
+	{
+		glDetachShader(hProgram, vShader);
+		glDeleteShader(vShader);
+	}
+	else if(fFile != 0)
+	{
+		glDetachShader(hProgram, tcShader);
+		glDeleteShader(tcShader);
+	}
+	else if(fFile != 0)
+	{
+		glDetachShader(hProgram, teShader);
+		glDeleteShader(teShader);
+	}
+	else if(fFile != 0)
+	{
+		glDetachShader(hProgram, gShader);
+		glDeleteShader(gShader);
+	}
+	else if(fFile != 0)
+	{
+		glDetachShader(hProgram, fShader);
+		glDeleteShader(fShader);
+	}
 
 	isShader = true;
 
@@ -222,18 +274,6 @@ bool Shader::loadShader(const char* vFile, const char* tcFile, const char* teFil
 //Used to delete a shader program once it is no longer of use
 void Shader::deleteShader()
 {
-	glDetachShader(hProgram, vShader);
-	glDetachShader(hProgram, tcShader);
-	glDetachShader(hProgram, teShader);
-	glDetachShader(hProgram, gShader);
-	glDetachShader(hProgram, fShader);
-
-	glDeleteShader(vShader);
-	glDeleteShader(tcShader);
-	glDeleteShader(teShader);
-	glDeleteShader(gShader);
-	glDeleteShader(fShader);
-
 	glDeleteProgram(hProgram);
 
 	isShader = false;
@@ -268,6 +308,13 @@ GLuint Shader::getHandle()
 	}
 
 	return 0;
+}
+
+//getIsShader
+//Returns whether or not class is currently a shader program
+bool Shader::getIsShader()
+{
+	return isShader;
 }
 
 //getError
