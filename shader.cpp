@@ -26,6 +26,7 @@ using namespace std;
 //parameters are filenames to source files for vertex, tessellation control, tessellation evaluator, geometry and fragment shaders
 //returns true if shader program was successfully created
 //if the function returns false, the cause of the error may be ascertained by calling the getError() function, which returns a string
+//can pass NULL as a shader filename to not have that particular shader included in the shader program
 bool Shader::loadShader(const char* vFile, const char* tcFile, const char* teFile, const char* gFile, const char* fFile)
 {
 	error = "";
@@ -37,7 +38,7 @@ bool Shader::loadShader(const char* vFile, const char* tcFile, const char* teFil
 		return false;
 	}
 
-	if(vFile != 0)
+	if(vFile)
 	{
 		vShader = glCreateShader(GL_VERTEX_SHADER);
 		if(vShader == 0)
@@ -70,7 +71,7 @@ bool Shader::loadShader(const char* vFile, const char* tcFile, const char* teFil
 		}
 		glAttachShader(hProgram, vShader);
 	}	
-	if(tcFile != 0)
+	if(tcFile)
 	{
 		tcShader = glCreateShader(GL_TESS_CONTROL_SHADER);
 		if(tcShader == 0)
@@ -103,7 +104,7 @@ bool Shader::loadShader(const char* vFile, const char* tcFile, const char* teFil
 		}
 		glAttachShader(hProgram, tcShader);
 	}	
-	if(teFile != 0)
+	if(teFile)
 	{
 		teShader = glCreateShader(GL_TESS_EVALUATION_SHADER);
 		if(teShader == 0)
@@ -136,7 +137,7 @@ bool Shader::loadShader(const char* vFile, const char* tcFile, const char* teFil
 		}
 		glAttachShader(hProgram, teShader);
 	}	
-	if(gFile != 0)
+	if(gFile)
 	{
 		gShader = glCreateShader(GL_GEOMETRY_SHADER);
 		if(gShader == 0)
@@ -169,7 +170,7 @@ bool Shader::loadShader(const char* vFile, const char* tcFile, const char* teFil
 		}
 		glAttachShader(hProgram, gShader);
 	}	
-	if(fFile != 0)
+	if(fFile)
 	{
 		fShader = glCreateShader(GL_FRAGMENT_SHADER);
 		if(fShader == 0)
