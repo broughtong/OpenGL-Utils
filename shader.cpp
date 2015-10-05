@@ -70,7 +70,7 @@ bool Shader::loadShader(const char* vFile, const char* tcFile, const char* teFil
 		}
 		glAttachShader(hProgram, vShader);
 	}	
-	else if(tcFile != 0)
+	if(tcFile != 0)
 	{
 		tcShader = glCreateShader(GL_TESS_CONTROL_SHADER);
 		if(tcShader == 0)
@@ -103,7 +103,7 @@ bool Shader::loadShader(const char* vFile, const char* tcFile, const char* teFil
 		}
 		glAttachShader(hProgram, tcShader);
 	}	
-	else if(teFile != 0)
+	if(teFile != 0)
 	{
 		teShader = glCreateShader(GL_TESS_EVALUATION_SHADER);
 		if(teShader == 0)
@@ -136,7 +136,7 @@ bool Shader::loadShader(const char* vFile, const char* tcFile, const char* teFil
 		}
 		glAttachShader(hProgram, teShader);
 	}	
-	else if(gFile != 0)
+	if(gFile != 0)
 	{
 		gShader = glCreateShader(GL_GEOMETRY_SHADER);
 		if(gShader == 0)
@@ -169,7 +169,7 @@ bool Shader::loadShader(const char* vFile, const char* tcFile, const char* teFil
 		}
 		glAttachShader(hProgram, gShader);
 	}	
-	else if(fFile != 0)
+	if(fFile != 0)
 	{
 		fShader = glCreateShader(GL_FRAGMENT_SHADER);
 		if(fShader == 0)
@@ -244,22 +244,22 @@ bool Shader::loadShader(const char* vFile, const char* tcFile, const char* teFil
 		glDetachShader(hProgram, vShader);
 		glDeleteShader(vShader);
 	}
-	else if(fFile != 0)
+	if(fFile != 0)
 	{
 		glDetachShader(hProgram, tcShader);
 		glDeleteShader(tcShader);
 	}
-	else if(fFile != 0)
+	if(fFile != 0)
 	{
 		glDetachShader(hProgram, teShader);
 		glDeleteShader(teShader);
 	}
-	else if(fFile != 0)
+	if(fFile != 0)
 	{
 		glDetachShader(hProgram, gShader);
 		glDeleteShader(gShader);
 	}
-	else if(fFile != 0)
+	if(fFile != 0)
 	{
 		glDetachShader(hProgram, fShader);
 		glDeleteShader(fShader);
