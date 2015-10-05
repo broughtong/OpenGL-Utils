@@ -26,6 +26,7 @@ public:
 	//parameters are filenames to source files for vertex, tessellation control, tessellation evaluator, geometry and fragment shaders
 	//returns true if shader program was successfully created
 	//if the function returns false, the cause of the error may be ascertained by calling the getError() function, which returns a string
+	//can pass NULL as a shader filename to not have that particular shader included in the shader program
 	bool loadShader(const char* vFile, const char* tcFile, const char* teFile, const char* gFile, const char* fFile);
 	
 	//deleteShader
