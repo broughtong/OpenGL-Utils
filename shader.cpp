@@ -81,7 +81,7 @@ bool Shader::loadShader(const char* vFile, const char* tcFile, const char* teFil
 		string tcTextString = readFile(tcFile);
 		if(tcTextString.empty())
 		{
-			error += "Error reading vertex shader file\n";
+			error += "Error reading tessellation control shader file\n";
 			return false;
 		}
 		const char* tcText = tcTextString.c_str();
@@ -114,7 +114,7 @@ bool Shader::loadShader(const char* vFile, const char* tcFile, const char* teFil
 		string teTextString = readFile(teFile);
 		if(teTextString.empty())
 		{
-			error += "Error reading vertex shader file\n";
+			error += "Error reading tessellation evaluator shader file\n";
 			return false;
 		}
 		const char* teText = teTextString.c_str();
@@ -147,7 +147,7 @@ bool Shader::loadShader(const char* vFile, const char* tcFile, const char* teFil
 		string gTextString = readFile(gFile);
 		if(gTextString.empty())
 		{
-			error += "Error reading vertex shader file\n";
+			error += "Error reading geometry shader file\n";
 			return false;
 		}
 		const char* gText = gTextString.c_str();
@@ -180,7 +180,7 @@ bool Shader::loadShader(const char* vFile, const char* tcFile, const char* teFil
 		string fTextString = readFile(fFile); 
 		if(fTextString.empty())
 		{
-			error += "Error reading vertex shader file\n";
+			error += "Error reading fragment shader file\n";
 			return false;
 		}
 		const char* fText = fTextString.c_str();
