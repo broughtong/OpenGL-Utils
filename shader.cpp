@@ -240,27 +240,27 @@ bool Shader::loadShader(const char* vFile, const char* tcFile, const char* teFil
 		return false;
 	}
 	
-	if(fFile != 0)
+	if(vFile)
 	{
 		glDetachShader(hProgram, vShader);
 		glDeleteShader(vShader);
 	}
-	if(fFile != 0)
+	if(tcFile)
 	{
 		glDetachShader(hProgram, tcShader);
 		glDeleteShader(tcShader);
 	}
-	if(fFile != 0)
+	if(teFile)
 	{
 		glDetachShader(hProgram, teShader);
 		glDeleteShader(teShader);
 	}
-	if(fFile != 0)
+	if(gFile)
 	{
 		glDetachShader(hProgram, gShader);
 		glDeleteShader(gShader);
 	}
-	if(fFile != 0)
+	if(fFile)
 	{
 		glDetachShader(hProgram, fShader);
 		glDeleteShader(fShader);
