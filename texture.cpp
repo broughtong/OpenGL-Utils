@@ -1,11 +1,11 @@
 /*
 	OpenGL-Utils
 	Copyright (C) 2015 George Broughton
-	GNU GPL Version 3
+    MIT License
 
 	texture.cpp
 
-	Header file for container class for openGL texture class
+	Header file for container class for OpenGL textures
 
 	Simply create class, call loadTexture providing file name as parameters, then bind() to use
 	Don't forget to call deleteTexture() at the end

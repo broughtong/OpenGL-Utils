@@ -1,7 +1,7 @@
 /*
 	OpenGL-Utils
 	Copyright (C) 2015 George Broughton
-	GNU GPL Version 3
+    MIT License
   
 	texture.h
   

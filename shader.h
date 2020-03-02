@@ -1,14 +1,14 @@
 /*
 	OpenGL-Utils
-	Copyright (C) 2015 George Broughton
-	GNU GPL Version 3
+	Copyright (C) 2020 George Broughton
+    MIT License
   
 	Shader.h
   
-	Header file for container class for openGL shader programs
-	Includes tessellation shaders, so opengl v. 4.0+
+	Header file for class for OpenGL shader programs
+	Includes options for tessellation shaders etc, so OpenGL 3 - 4.6(current)
   
-	Simply create class, call loadShader providing file names as parameters, then bind() to use
+	Simply create the class, call loadShader providing file names as parameters, then bind() to use
 	Don't forget to call deleteShader() at the end
 */
 
